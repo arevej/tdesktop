@@ -20,7 +20,7 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{ backgroundImage: `url('${this.state.backgroundImage}')`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
+      <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url('${this.state.backgroundImage}')`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
         <Dock applications={this.state.applications} />
       </div>
     );

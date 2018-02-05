@@ -1,7 +1,8 @@
-.container {
-  width: 1300px;
-  height: 794px;
-  margin: 0 auto;
+.dock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -49,6 +50,12 @@
 
 .app-icon:hover .tooltiptext {
     visibility: visible;
+}
+
+.app-icon img {
+  margin: 0;
+  transform: none;
+  transition: 0.2s ease-in-out all;
 }
 
 .app-icon:hover img {
