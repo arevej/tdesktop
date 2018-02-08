@@ -32,11 +32,13 @@ class App extends Component {
     this.setState({ windows: newWindows });
   };
 
-  handleChangePosition = (windowName, { x, y }) => {
+  handleChangePositionAndDimensions = (windowName, { x, y }, { width, height }) => {
     const newWindows = this.state.windows.map(window => {
       if (window.name === windowName) {
         return {
           ...window,
+          width,
+          height,
           cordX: x,
           cordY: y,
         };
@@ -66,7 +68,7 @@ class App extends Component {
             y={window.cordY}
             width={window.width}
             height={window.height}
-            onChangePosition={(coords) => this.handleChangePosition(window.name, coords)}
+            onChangePositionAndDimensions={(coords, dims) => this.handleChangePositionAndDimensions(window.name, coords, dims)}
           />
         )}
       </div>
