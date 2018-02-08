@@ -1,0 +1,15 @@
+.app-window {
+  background: #fff;
+  border-radius: 3px;
+  position: absolute;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(66, 4, 0, 0.1);
+  padding: 3px 15px;
+  font-size: 18px;
+}
