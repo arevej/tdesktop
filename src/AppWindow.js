@@ -25,10 +25,10 @@ class AppWindow extends Component {
   }
 
   handleMouseDown = (where, evt) => {
-    const initCordX = evt.screenX;
-    const initCordY = evt.screenY;
+    const initCoordX = evt.screenX;
+    const initCoordY = evt.screenY;
 
-    this.downAt = { initCordX, initCordY, where };
+    this.downAt = { initCoordX, initCoordY, where };
   };
 
   handleMouseMove = (evt) => {
@@ -42,8 +42,8 @@ class AppWindow extends Component {
     const areDimensionsCool = newDimensions => newDimensions.height > MIN_HEIGHT && newDimensions.width > MIN_WIDTH;
 
     if (this.downAt.where === 'header') {
-      const diffX = evt.screenX - this.downAt.initCordX;
-      const diffY = evt.screenY - this.downAt.initCordY;
+      const diffX = evt.screenX - this.downAt.initCoordX;
+      const diffY = evt.screenY - this.downAt.initCoordY;
 
       this.props.onChangePositionAndDimensions({ x: x + diffX, y: y + diffY }, { width: width, height: height });
     } else {
@@ -56,7 +56,7 @@ class AppWindow extends Component {
       }
     }
 
-    this.downAt = { initCordX: evt.screenX, initCordY: evt.screenY, where: this.downAt.where };
+    this.downAt = { initCoordX: evt.screenX, initCoordY: evt.screenY, where: this.downAt.where };
   };
 
   calculateNewPositionAndDimensions = (direction, screenX, screenY) => {
@@ -65,42 +65,42 @@ class AppWindow extends Component {
     let newCoords = { x, y };
     let newDimensions = { width, height };
 
-    const { initCordX, initCordY } = this.downAt;
+    const { initCoordX, initCoordY } = this.downAt;
 
     if (direction === 'right') {
-      const diffX = screenX - initCordX;
+      const diffX = screenX - initCoordX;
       newCoords = { x, y };
       newDimensions = { width: width + diffX, height };
     } else if (direction === 'left') {
-      const diffX = initCordX - screenX;
+      const diffX = initCoordX - screenX;
       newCoords = { x: x - diffX, y };
       newDimensions = { width: width + diffX, height };
     } else if (direction === 'bottom') {
-      const diffY = screenY - initCordY;
+      const diffY = screenY - initCoordY;
       newCoords = { x, y };
       newDimensions = { width, height: height + diffY };
     } else if (direction === 'top') {
-      const diffY = initCordY - screenY;
+      const diffY = initCoordY - screenY;
       newCoords = { x, y: y - diffY };
       newDimensions = { width, height: height + diffY };
     } else if (direction === 'right-top') {
-      const diffY = initCordY - screenY;
-      const diffX = screenX - initCordX;
+      const diffY = initCoordY - screenY;
+      const diffX = screenX - initCoordX;
       newCoords = { x, y: y - diffY };
       newDimensions = { width: width + diffX, height: height + diffY };
     } else if (direction === 'right-bottom') {
-      const diffY = screenY - initCordY;
-      const diffX = screenX - initCordX;
+      const diffY = screenY - initCoordY;
+      const diffX = screenX - initCoordX;
       newCoords = { x, y};
       newDimensions = { width: width + diffX, height: height + diffY };
     } else if (direction === 'left-top') {
-      const diffY = initCordY - screenY;
-      const diffX = initCordX - screenX;
+      const diffY = initCoordY - screenY;
+      const diffX = initCoordX - screenX;
       newCoords = { x: x - diffX, y: y - diffY };
       newDimensions = { width: width + diffX, height: height + diffY };
     } else if (direction === 'left-bottom') {
-      const diffX = initCordX - screenX;
-      const diffY = screenY - initCordY;
+      const diffX = initCoordX - screenX;
+      const diffY = screenY - initCoordY;
       newCoords = { x: x - diffX, y };
       newDimensions = { width: width + diffX, height: height + diffY };
     }
@@ -113,10 +113,10 @@ class AppWindow extends Component {
   }
 
   render() {
-    const { name, onClose, width, height, x, y } = this.props;
+    const { name, onClose, width, height, x, y, onInteraction } = this.props;
 
     return (
-      <div className="app-window" style={{ width: width, height: height, top: y, left: x }}>
+      <div className="app-window" style={{ width: width, height: height, top: y, left: x }} onMouseDown={onInteraction}>
         <div className="header" onMouseDown={(evt) => this.handleMouseDown('header', evt)}>
           <Button
             icon="TiDeleteOutline"

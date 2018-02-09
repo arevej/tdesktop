@@ -5,6 +5,8 @@ import AppWindow from './AppWindow';
 
 import './App.css';
 
+let idCounter = 2;
+
 class App extends Component {
   state = {
     backgroundImage: 'https://www.nationalgeographic.com/content/dam/adventure/photos/2017/stories/amazing-iceland-adventures/Iceland-mount-Kirkjufell-aurora.jpg',
@@ -17,36 +19,40 @@ class App extends Component {
       { name: '43rfer', iconUrl: 'https://www.androidheadlines.com/wp-content/uploads/2015/09/touch-calc-icon.png' },
     ],
 
-    windows: [
-      { name: 'calc', width: 600, height: 400, cordX: 150 , cordY: 150 }
-    ],
+    windows: [],
   }
 
   handleOpenWindow = (appName) => {
-    const newWindows = this.state.windows.concat({ name: appName, width: 600, height: 400, cordX: 170, cordY: 170 })
+    const newWindows = this.state.windows.concat({ id: idCounter++, name: appName, width: 600, height: 400, coordX: 170, coordY: 170 })
     this.setState({ windows: newWindows });
   };
 
-  handleCloseWindow = (windowName) => {
-    const newWindows = this.state.windows.filter(window => windowName !== window.name)
+  handleCloseWindow = (id) => {
+    const newWindows = this.state.windows.filter(window => id !== window.id)
     this.setState({ windows: newWindows });
   };
 
-  handleChangePositionAndDimensions = (windowName, { x, y }, { width, height }) => {
+  handleChangePositionAndDimensions = (id, { x, y }, { width, height }) => {
     const newWindows = this.state.windows.map(window => {
-      if (window.name === windowName) {
+      if (window.id === id) {
         return {
           ...window,
           width,
           height,
-          cordX: x,
-          cordY: y,
+          coordX: x,
+          coordY: y,
         };
       }
       return window;
     });
 
     this.setState({ windows: newWindows })
+  };
+
+  handleMakeFirstWindow = (id) => {
+    const activeWindow = this.state.windows.find(window => window.id === id)
+    const newWindows = this.state.windows.filter(window => window.id !== id)
+    this.setState({ windows: [...newWindows, activeWindow] })
   };
 
   render() {
@@ -62,13 +68,15 @@ class App extends Component {
         </div>
         {windows.map(window =>
           <AppWindow
+            key={window.id}
             name={window.name}
-            onClose={() => this.handleCloseWindow(window.name)}
-            x={window.cordX}
-            y={window.cordY}
+            onClose={() => this.handleCloseWindow(window.id)}
+            x={window.coordX}
+            y={window.coordY}
             width={window.width}
             height={window.height}
-            onChangePositionAndDimensions={(coords, dims) => this.handleChangePositionAndDimensions(window.name, coords, dims)}
+            onChangePositionAndDimensions={(coords, dims) => this.handleChangePositionAndDimensions(window.id, coords, dims)}
+            onInteraction={() => this.handleMakeFirstWindow(window.id)}
           />
         )}
       </div>
