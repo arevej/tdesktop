@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 
-import * as Icons from 'react-icons/lib/ti';
-
 import './AppWindow.css'
 
-function Button ({ icon, color, onClick }) {
-  const Icon = Icons[icon];
+// 'a' + x === `a${x}`
+
+function Button ({ color, onClick }) {
   return (
-    <div onClick={onClick}>
-      <Icon size={18} color={color}/>
-    </div>
+    <div onClick={onClick} style={{ background: color }} className="round-button"/>
   )
 }
 
@@ -113,16 +110,21 @@ class AppWindow extends Component {
   }
 
   render() {
-    const { name, onClose, width, height, x, y, onInteraction } = this.props;
+    const { name, onClose, isMinimized, onMinimize, width, height, x, y, onInteraction } = this.props;
 
     return (
-      <div className="app-window" style={{ width: width, height: height, top: y, left: x }} onMouseDown={onInteraction}>
+      <div className="app-window" style={{ display: isMinimized ? 'none' : 'block', width: width, height: height, top: y, left: x }} onMouseDown={onInteraction}>
         <div className="header" onMouseDown={(evt) => this.handleMouseDown('header', evt)}>
-          <Button
-            icon="TiDeleteOutline"
-            onClick={onClose}
-            color="red"
-          />
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <Button
+              onClick={onClose}
+              color="red"
+            />
+            <Button
+              onClick={onMinimize}
+              color="yellow"
+            />
+          </div>
           <span>{name}</span>
         </div>
         <div className="window-container">

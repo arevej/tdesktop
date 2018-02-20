@@ -29,8 +29,11 @@ class App extends Component {
     const openWindow = this.state.windows.filter(window => window.name === appName)[0]
     if (openWindow) {
       this.handleMakeFirstWindow(openWindow.id)
+      if(openWindow.isMinimized) {
+        const newWindows = this.state.windows.map(window => window.id === openWindow.id ? { ...window, isMinimized: false } : window);
+        this.setState({ windows: newWindows })}
     } else {
-      const newWindows = this.state.windows.concat({ id: idCounter++, name: appName, width: 600, height: 400, coordX: coordX +  this.state.windows.length*20, coordY: coordY +  this.state.windows.length*20 })
+      const newWindows = this.state.windows.concat({ id: idCounter++, name: appName, width: 600, height: 400, coordX: coordX +  this.state.windows.length*20, coordY: coordY +  this.state.windows.length*20, isMinimized: false })
       this.setState({ windows: newWindows });
     }
   }
@@ -39,6 +42,11 @@ class App extends Component {
     const newWindows = this.state.windows.filter(window => id !== window.id)
     this.setState({ windows: newWindows });
   };
+
+  handleMinimizeWindow = (id) => {
+    const newWindows = this.state.windows.map(window => window.id === id ? { ...window, isMinimized: true } : window);
+    this.setState({ windows: newWindows });
+  }
 
   handleChangePositionAndDimensions = (id, { x, y }, { width, height }) => {
     const newWindows = this.state.windows.map(window => {
@@ -79,12 +87,14 @@ class App extends Component {
             key={window.id}
             name={window.name}
             onClose={() => this.handleCloseWindow(window.id)}
+            onMinimize={() => this.handleMinimizeWindow(window.id)}
             x={window.coordX}
             y={window.coordY}
             width={window.width}
             height={window.height}
             onChangePositionAndDimensions={(coords, dims) => this.handleChangePositionAndDimensions(window.id, coords, dims)}
             onInteraction={() => this.handleMakeFirstWindow(window.id)}
+            isMinimized={window.isMinimized}
           >
             {window.name === "Followers" ?
             <FollowersApp />
