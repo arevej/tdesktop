@@ -147,7 +147,6 @@ class FollowersApp extends Component {
     const newAccount = {
       ...account,
       followers: newFollowers,
-      ...account,
       history: newHistory
     }
     this.setState({ account: newAccount })

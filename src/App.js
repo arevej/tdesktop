@@ -22,7 +22,7 @@ class App extends Component {
       { name: '43rfer', iconUrl: 'https://www.androidheadlines.com/wp-content/uploads/2015/09/touch-calc-icon.png' },
     ],
 
-    windows: [{ id: 2, name: "Followers", width: 600, height: 400, coordX: 170, coordY: 170 }],
+    windows: [],
   }
 
   handleOpenWindow = (appName) => {

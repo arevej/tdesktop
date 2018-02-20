@@ -44,14 +44,17 @@
 .followers-updates > ul {
   list-style: none;
   padding: 0;
-  
 }
 
 .followers-updates > ul > li {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;;
+}
+
+.followers-updates > ul > li > span {
+  flex: 1;
+  margin-left: 10px;
 }
 
 .followers-updates-add-button {
