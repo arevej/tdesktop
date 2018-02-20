@@ -34,8 +34,8 @@ class AppWindow extends Component {
   handleMouseMove = (evt) => {
     if (!this.downAt) return;
 
-    const MIN_WIDTH = 250;
-    const MIN_HEIGHT = 150;
+    const MIN_WIDTH = 450;
+    const MIN_HEIGHT = 350;
 
     const { x, y, width, height } = this.props;
 
@@ -125,8 +125,9 @@ class AppWindow extends Component {
           />
           <span>{name}</span>
         </div>
-
-
+        <div className="window-container">
+          {this.props.children}
+        </div>
         <div
           onMouseDown={(evt) => this.handleMouseDown('right', evt)}
           style={{ width: '5px', position: 'absolute', top: 0, bottom: 0, right: 0, cursor: 'ew-resize' }}

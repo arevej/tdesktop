@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 
 import Dock from './Dock';
 import AppWindow from './AppWindow';
+import FollowersApp from './FollowersApp';
 
 import './App.css';
 
 let idCounter = 2;
+const coordX = 100;
+const coordY = 100;
 
 class App extends Component {
   state = {
@@ -15,17 +18,22 @@ class App extends Component {
       { name: 'calc', iconUrl: 'https://www.androidheadlines.com/wp-content/uploads/2015/09/touch-calc-icon.png' },
       { name: 'reminders', iconUrl: 'https://www.androidheadlines.com/wp-content/uploads/2015/09/touch-calc-icon.png' },
       { name: 'dsd', iconUrl: 'https://www.androidheadlines.com/wp-content/uploads/2015/09/touch-calc-icon.png' },
-      { name: 'reerer', iconUrl: 'https://www.androidheadlines.com/wp-content/uploads/2015/09/touch-calc-icon.png' },
+      { name: 'Followers', iconUrl: 'https://cdn6.aptoide.com/imgs/c/1/a/c1aba453cdd956ee25dd72fad7663bdc_icon.png?w=240' },
       { name: '43rfer', iconUrl: 'https://www.androidheadlines.com/wp-content/uploads/2015/09/touch-calc-icon.png' },
     ],
 
-    windows: [],
+    windows: [{ id: 2, name: "Followers", width: 600, height: 400, coordX: 170, coordY: 170 }],
   }
 
   handleOpenWindow = (appName) => {
-    const newWindows = this.state.windows.concat({ id: idCounter++, name: appName, width: 600, height: 400, coordX: 170, coordY: 170 })
-    this.setState({ windows: newWindows });
-  };
+    const openWindow = this.state.windows.filter(window => window.name === appName)[0]
+    if (openWindow) {
+      this.handleMakeFirstWindow(openWindow.id)
+    } else {
+      const newWindows = this.state.windows.concat({ id: idCounter++, name: appName, width: 600, height: 400, coordX: coordX +  this.state.windows.length*20, coordY: coordY +  this.state.windows.length*20 })
+      this.setState({ windows: newWindows });
+    }
+  }
 
   handleCloseWindow = (id) => {
     const newWindows = this.state.windows.filter(window => id !== window.id)
@@ -77,7 +85,12 @@ class App extends Component {
             height={window.height}
             onChangePositionAndDimensions={(coords, dims) => this.handleChangePositionAndDimensions(window.id, coords, dims)}
             onInteraction={() => this.handleMakeFirstWindow(window.id)}
-          />
+          >
+            {window.name === "Followers" ?
+            <FollowersApp />
+            : null
+          }
+          </AppWindow>
         )}
       </div>
     );
