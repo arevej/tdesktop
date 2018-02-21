@@ -41,23 +41,33 @@
   background: rgba(61, 171, 255, 0.1);
 }
 
-.followers-updates > ul {
+.followers-updates {
+  display: flex;
+  flex-direction: row;
+}
+
+.followers-updates-cancel-button {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.requests, .updates-history {
   list-style: none;
   padding: 0;
 }
 
-.followers-updates > ul > li {
+.requests > li, .updates-history > li {
   display: flex;
   align-items: center;
   margin-bottom: 10px;;
 }
 
-.followers-updates > ul > li > span {
+.requests > li > span, .updates-history > li > span {
   flex: 1;
   margin-left: 10px;
 }
 
-.followers-updates-add-button {
+.add-button {
   padding: 5px 15px;
   cursor: pointer;
   border: 1px solid #ccc;
@@ -66,11 +76,11 @@
   margin-right: 5px;
 }
 
-.followers-updates-add-button:hover {
+.add-button:hover {
   background: #3dff54;
 }
 
-.followers-updates-decline-button {
+.decline-button {
   padding: 5px 15px;
   cursor: pointer;
   border: 1px solid #ccc;
@@ -78,7 +88,7 @@
   transition: 0.3s all;
 }
 
-.followers-updates-decline-button:hover {
+.decline-button:hover {
   background: #ff3d71;
 }
 

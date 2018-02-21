@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Avatar from './Avatar';
+import Avatar from '../Avatar';
 
 import './FollowersApp.css';
 
@@ -33,38 +33,80 @@ function AccountInfo({ avatarURL, login, following, followers, onClick, requests
   )
 }
 
+function Request({ avatarURL, login, onAdd, onDecline}) {
+  return (
+    <li>
+      <Avatar size={50} avatarURL={avatarURL} />
+      <span>{login} wants to follow you</span>
+      <div style={{ display: 'flex', flexDirection: 'row'}}>
+        <div onClick={onAdd(login)} className="add-button">Add</div>
+        <div onClick={onDecline(login)} className="decline-button">Decline</div>
+      </div>
+    </li>
+  )
+}
+
+function HistoryItem({ avatarURL, login, onDelete }) {
+  return (
+    <li>
+      <Avatar size={50} avatarURL={avatarURL} />
+      <span>{login} started to follow you</span>
+      <div onClick={onDelete(login)} className="decline-button">Delete</div>
+    </li>
+  )
+}
+
+function Requests ({ requests, onAdd, onDecline }) {
+  return (
+    <React.Fragment>
+      <ul className="requests">
+        {requests.map(request => {
+          return (
+            <Request
+              key={request.login}
+              avatarURL={request.avatarURL}
+              login={request.login}
+              onAdd={onAdd}
+              onDecline={onDecline}
+            />
+          );
+        })}
+      </ul>
+      <div className="line" />
+    </React.Fragment>
+  )
+}
+
+function UpdatesHistory ({ history, onDelete }) {
+  return (
+    <ul className="updates-history">
+      {history.map(item => item.action === "follow" ?
+        <HistoryItem
+          key={item.login}
+          avatarURL={item.avatarURL}
+          login={item.login}
+          onDelete={onDelete}
+        /> : null)}
+    </ul>
+  )
+}
+
 function AccountUpdates({ requests, history, onAdd, onDecline, onDelete, onCancel }) {
   return (
     <div className='followers-updates'>
-      {requests.length !== 0 ? (
-        <React.Fragment>
-          <ul>
-            {requests.map(request => {
-              return (
-                <li>
-                  <Avatar size={50} avatarURL={request.avatarURL} />
-                  <span>{request.login} wants to follow you</span>
-                  <div style={{ display: 'flex', flexDirection: 'row'}}>
-                    <div onClick={onAdd(request.login)} className="followers-updates-add-button">Add</div>
-                    <div onClick={onDecline(request.login)} className="followers-updates-decline-button">Decline</div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-          <div className="line" />
-        </React.Fragment>
-      ): null}
-      <ul>
-        {history.map(item => item.action === "follow" ? (
-          <li>
-            <Avatar size={50} avatarURL={item.avatarURL} />
-            <span>{item.login} started to follow you</span>
-            <div onClick={onDelete(item.login)} className="followers-updates-decline-button">Delete</div>
-          </li>) : null
-        )}
-      </ul>
-      <div onClick={onCancel}>X</div>
+      <div style={{ flex: 1 }}>
+        {requests.length !== 0 ?
+          <Requests
+            requests={requests}
+            onAdd={onAdd}
+            onDecline={onDecline}
+          /> : null}
+        <UpdatesHistory
+          history={history}
+          onDelete={onDelete}
+        />
+      </div>
+      <span className="followers-updates-cancel-button" onClick={onCancel}>×</span>
     </div>
   )
 }
