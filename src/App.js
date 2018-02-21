@@ -32,8 +32,19 @@ class App extends Component {
       if(openWindow.isMinimized) {
         const newWindows = this.state.windows.map(window => window.id === openWindow.id ? { ...window, isMinimized: false } : window);
         this.setState({ windows: newWindows })}
-    } else {
-      const newWindows = this.state.windows.concat({ id: idCounter++, name: appName, width: 600, height: 400, coordX: coordX +  this.state.windows.length*20, coordY: coordY +  this.state.windows.length*20, isMinimized: false })
+      } else {
+        const newWindows = this.state.windows.concat({
+          id: idCounter++,
+          name: appName,
+          width: 600,
+          height: 400,
+          coordX: coordX +  this.state.windows.length*20,
+          coordY: coordY +  this.state.windows.length*20,
+          isMinimized: false,
+          isMaximized: false,
+          lastPositionAndDimensions:
+            {width: 0, height: 0, coordX: 0, coordY: 0}
+        })
       this.setState({ windows: newWindows });
     }
   }
@@ -44,8 +55,39 @@ class App extends Component {
   };
 
   handleMinimizeWindow = (id) => {
-    const newWindows = this.state.windows.map(window => window.id === id ? { ...window, isMinimized: true } : window);
+    const newWindows = this.state.windows.map(window =>
+      window.id === id ?
+      { ...window, isMinimized: true } : window);
     this.setState({ windows: newWindows });
+  }
+
+  handleMaximizeWindow = (id) => {
+    const _window = this.state.windows.find(w => w.id === id);
+    if(_window.isMaximized) {
+      const newWindows = this.state.windows.map(window =>
+        window.id === id ?
+        { ...window,
+          height: window.lastPositionAndDimensions.height,
+          width: window.lastPositionAndDimensions.width,
+          coordX: window.lastPositionAndDimensions.coordX,
+          coordY: window.lastPositionAndDimensions.coordY,
+          isMaximized: false
+        } : window);
+      this.setState({ windows: newWindows });
+    } else {
+      const newWindows = this.state.windows.map(__window =>
+        __window.id === id ?
+        { ...__window,
+          width: window.innerWidth,
+          height: window.innerHeight,
+          coordX: 0,
+          coordY: 0,
+          isMaximized: true,
+          lastPositionAndDimensions:
+            { coordX: __window.coordX, coordY: __window.coordY, width: __window.width, height: __window.height }
+        } : __window);
+      this.setState({ windows: newWindows });
+    }
   }
 
   handleChangePositionAndDimensions = (id, { x, y }, { width, height }) => {
@@ -88,6 +130,7 @@ class App extends Component {
             name={window.name}
             onClose={() => this.handleCloseWindow(window.id)}
             onMinimize={() => this.handleMinimizeWindow(window.id)}
+            onMaximize={() => this.handleMaximizeWindow(window.id)}
             x={window.coordX}
             y={window.coordY}
             width={window.width}

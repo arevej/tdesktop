@@ -110,11 +110,20 @@ class AppWindow extends Component {
   }
 
   render() {
-    const { name, onClose, isMinimized, onMinimize, width, height, x, y, onInteraction } = this.props;
+    const { name, onClose, isMinimized, onMinimize, onMaximize, width, height, x, y, onInteraction } = this.props;
 
     return (
-      <div className="app-window" style={{ display: isMinimized ? 'none' : 'block', width: width, height: height, top: y, left: x }} onMouseDown={onInteraction}>
-        <div className="header" onMouseDown={(evt) => this.handleMouseDown('header', evt)}>
+      <div className="app-window"
+        onMouseDown={onInteraction}
+        style={{
+          display: isMinimized ? 'none' : 'block',
+          width: width,
+          height: height,
+          top: y,
+          left: x
+        }}
+      >
+        <div className="header" onDoubleClick={onMaximize} onMouseDown={(evt) => this.handleMouseDown('header', evt)}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Button
               onClick={onClose}
@@ -123,6 +132,10 @@ class AppWindow extends Component {
             <Button
               onClick={onMinimize}
               color="yellow"
+            />
+            <Button
+              onClick={onMaximize}
+              color="green"
             />
           </div>
           <span>{name}</span>
