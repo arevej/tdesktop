@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Avatar from '../Avatar';
 
-import './FollowersApp.css';
+import './index.css';
 
 
 

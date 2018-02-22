@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Dock from './Dock';
 import AppWindow from './AppWindow';
 import FollowersApp from './FollowersApp';
+import BookFlyApp from './BookFlyApp';
 
 import './App.css';
 
@@ -24,7 +25,19 @@ class App extends Component {
 
     ],
 
-    windows: [],
+    windows: [
+      { id: 4,
+        name: 'BookFly',
+        width: 600,
+        height: 400,
+        coordX: 150,
+        coordY: 150,
+        isMinimized: false,
+        isMaximized: false,
+        lastPositionAndDimensions:
+          {width: 0, height: 0, coordX: 0, coordY: 0}
+      }
+    ],
   }
 
   isAppOpened = (name) => {
@@ -147,10 +160,13 @@ class App extends Component {
             onInteraction={() => this.handleMakeFirstWindow(window.id)}
             isMinimized={window.isMinimized}
           >
-            {window.name === "Followers" ?
-            <FollowersApp />
-            : null
-          }
+            {(() => {
+              switch (window.name) {
+                case "Followers": return <FollowersApp />;
+                case "BookFly": return <BookFlyApp />;
+                default: return null;
+              }
+            })()}
           </AppWindow>
         )}
       </div>

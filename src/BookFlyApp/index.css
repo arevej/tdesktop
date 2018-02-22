@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Rock+Salt');
+
+.bookfly {
+
+}
+
+.bookfly-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookfly-header > h3 {
+  font-size: 26px;
+  color: rgba(116, 21, 47, 1);
+  letter-spacing: 2px;
+  font-weight: 500;
+  font-family: 'Rock Salt', cursive;
+  margin: 0;
+  cursor: pointer;
+}
+
+.lang-swit {
+  position: relative;
+}
+
+.lang-swit-main {
+  border: 1px solid rgba(116, 21, 47, 1);
+  border-radius: 5px;
+  padding: 6px 0;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+
+.lang-swit-main:hover {
+  background: rgba(116, 21, 47, 1);
+  color: #fff;
+}
+
+.lang-swit-list {
+  position: absolute;
+  margin-top: 3px;
+  top: 1;
+  width: 100px;
+  text-align: center;
+  border: 1px solid rgba(116, 21, 47, 1);
+  border-radius: 3px;
+}
+
+.lang-swit-list-item {
+  padding: 6px 12px;
+}
+
+.lang-swit-list-item:hover {
+  background: rgba(116, 21, 47, 1);
+  color: #fff;
+}
