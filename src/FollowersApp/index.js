@@ -3,6 +3,8 @@ import Avatar from '../Avatar';
 
 import './FollowersApp.css';
 
+
+
 function Button ({ onClick, requests }) {
   return (
     <div className="followers-account-updates-button" onClick={onClick}>
@@ -111,8 +113,15 @@ function AccountUpdates({ requests, history, onAdd, onDecline, onDelete, onCance
   )
 }
 
-class FollowersApp extends Component {
-  state={
+function getData() {
+  const delayResolve = (value) => {
+    return new Promise((callMeWhenReady) => {
+      setTimeout(() => callMeWhenReady(value), 2000)
+    });
+  };
+
+
+  return delayResolve({
     account: {
       login: 'Tim',
       avatarURL: 'https://pp.userapi.com/c638624/v638624890/4f427/gizTR-4andk.jpg',
@@ -143,7 +152,20 @@ class FollowersApp extends Component {
       { login: 'asas', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' },
       { login: 'kiee', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' }
     ],
+  });
+}
+
+class FollowersApp extends Component {
+  state = {
+    account: null,
+    accounts: null,
     activeScreen: 'homescreen',
+  };
+
+  componentDidMount() {
+    getData().then(data => {
+      this.setState({ account: data.account, accounts: data.accounts })
+    })
   }
 
   handleChangeScreen = () => (name) => {
@@ -196,6 +218,10 @@ class FollowersApp extends Component {
 
   render() {
     const { account, accounts, activeScreen } = this.state;
+
+    if (!account || !accounts) {
+      return <div className="followers">loading...</div>
+    }
 
     const requests = account.requests.map(request => {
       const account = accounts.find(account => account.login === request.login);
