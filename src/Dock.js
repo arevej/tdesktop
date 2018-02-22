@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 
 import './Dock.css'
 
-function AppIcon ({ name, iconUrl, size, currentSize, onMouseOver, onMouseLeave, onClick }) {
+function AppIcon ({ name, iconUrl, size, currentSize, onMouseOver, onMouseLeave, onClick, isAppOpened }) {
   const scale = currentSize / size;
   const pad = (currentSize - size) / 2;
   return (
     <div className="app-icon">
       <span className="tooltiptext">{name.charAt(0).toUpperCase() + name.slice(1)}</span>
+      {isAppOpened ?
+        <div style={{ position: 'absolute', bottom: 0, right: 5, left: 5, display: 'flex',  justifyContent: 'center'}}>
+          <div style={{ background: '#aaa', height: '6px', width: '6px', borderRadius: '6px' }}></div>
+        </div> : null}
+
       <img
         src={iconUrl}
         height={size}
@@ -48,6 +53,7 @@ class Dock extends Component {
               onClick={this.handleClick(app.name)}
               size={60}
               currentSize={activeIdx == null ? 60 : activeIdx === index ? 75 : Math.abs(activeIdx - index) === 1 ? 66 : 60}
+              isAppOpened={app.isOpen}
             />
           )}
         </div>

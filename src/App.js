@@ -20,9 +20,15 @@ class App extends Component {
       { name: 'dsd', iconUrl: 'https://static1.squarespace.com/static/55fc0004e4b069a519961e2d/t/55fc301ae4b01342ae9212a1/1442590746805/' },
       { name: 'Followers', iconUrl: 'https://cdn6.aptoide.com/imgs/c/1/a/c1aba453cdd956ee25dd72fad7663bdc_icon.png?w=240' },
       { name: '43rfer', iconUrl: 'https://static1.squarespace.com/static/55fc0004e4b069a519961e2d/t/55fc301ae4b01342ae9212a1/1442590746805/' },
+      { name: 'BookFly', iconUrl: 'https://cdn0.iconfinder.com/data/icons/commerce-and-retail/512/airplane_plane_fly_aircraft_air_ship_jet_delivery_transportation_travel_flight_shipping_fast_transport_speed_tourism_flat_design_icon-512.png' },
+
     ],
 
     windows: [],
+  }
+
+  isAppOpened = (name) => {
+    return this.state.windows.find(window => window.name === name)
   }
 
   handleOpenWindow = (appName) => {
@@ -120,7 +126,9 @@ class App extends Component {
       <div>
         <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundImage: `url('${this.state.backgroundImage}')`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
           <Dock
-            apps={this.state.apps}
+            apps={this.state.apps.map(app => {
+              return { name: app.name, iconUrl: app.iconUrl, isOpen: this.isAppOpened(app.name) };
+            })}
             onClickApp={this.handleOpenWindow}
           />
         </div>
