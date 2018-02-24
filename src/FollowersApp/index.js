@@ -4,6 +4,7 @@ import Avatar from '../Avatar';
 import './index.css';
 
 
+import * as api from './GetData';
 
 function Button ({ onClick, requests }) {
   return (
@@ -113,58 +114,30 @@ function AccountUpdates({ requests, history, onAdd, onDecline, onDelete, onCance
   )
 }
 
-function getData() {
-  const delayResolve = (value) => {
-    return new Promise((callMeWhenReady) => {
-      setTimeout(() => callMeWhenReady(value), 2000)
-    });
-  };
 
 
-  return delayResolve({
-    account: {
-      login: 'Tim',
-      avatarURL: 'https://pp.userapi.com/c638624/v638624890/4f427/gizTR-4andk.jpg',
-      following: [
-        { login: 'Fjsk' },
-        { login: 'Gjee' }
-      ],
-      followers: [
-        { login: 'bd' },
-        { login: 'asas' },
-        { login: 'kiee' },
-      ],
-      requests: [
-        { login: 'Gosha' },
-        { login: 'Rusya' },
-        { login: 'asas' },
-        { login: 'kiee' },
-      ],
-      history: [
-        { login: 'kiee', action: 'follow' },
-      ]
-    },
-    accounts: [
-      { login: 'Gosha', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' },
-      { login: 'Rusya', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' },
-      { login: 'kiee', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' },
-      { login: 'bd', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' },
-      { login: 'asas', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' },
-      { login: 'kiee', avatarURL: 'https://pp.userapi.com/c629222/v629222406/25bd7/z5EqmubTJFk.jpg' }
-    ],
-  });
-}
 
 class FollowersApp extends Component {
   state = {
     account: null,
+    history: null,
+    requests: null,
     accounts: null,
     activeScreen: 'homescreen',
   };
 
   componentDidMount() {
-    getData().then(data => {
-      this.setState({ account: data.account, accounts: data.accounts })
+    api.getAccountData().then(data => {
+      this.setState({ account: data.account })
+    })
+    api.getHistory().then(data => {
+      this.setState({ history: data.history })
+    })
+    api.getRequests().then(data => {
+      this.setState({ requests: data.requests })
+    })
+    api.getAccounts().then(data => {
+      this.setState({ accounts: data.accounts })
     })
   }
 
@@ -177,58 +150,46 @@ class FollowersApp extends Component {
   }
 
   handleAddFollower = (login) => () => {
-    const {account} = this.state;
-
-    const newFollowers = account.followers.concat({ login: login });
-    const newRequests = account.requests.filter(item => item.login !== login);
-    const newHistory = [{ login: login, action: 'follow' }, ...account.history];
-    const newAccount = {
-      ...account,
-      followers: newFollowers,
-      requests: newRequests,
-      history: newHistory
-    }
-    this.setState({ account: newAccount })
+    this.setState({
+      requests: this.state.requests.filter(item => item.login !== login),
+      history: [{ login: login, action: 'follow' }, ...this.state.history],
+      account: {
+        ...this.state.account,
+        followers: [...this.state.account.followers, { login: login }],
+      }
+    })
   }
 
   handleDeclineFollower = (login) => () => {
-    const {account} = this.state;
+    const { account, requests } = this.state;
 
-    const newRequests = account.requests.filter(item => item.login !== login);
-    const newAccount = {
-      ...account,
-      requests: newRequests
-    }
-    this.setState({ account: newAccount })
+    const newRequests = requests.filter(item => item.login !== login);
+
+    this.setState({ requests: newRequests })
   }
 
-
   handleDeleteFollower = (login) => () => {
-    const {account} = this.state;
+    const { account, history } = this.state;
 
     const newFollowers = account.followers.filter(follower => follower.login !== login);
-    const newHistory = account.history.filter(item => item.login !== login);
-    const newAccount = {
-      ...account,
-      followers: newFollowers,
-      history: newHistory
-    }
-    this.setState({ account: newAccount })
+    const newHistory = history.filter(item => item.login !== login);
+    const newAccount = { ...account, followers: newFollowers }
+    this.setState({ account: newAccount, history: newHistory })
   }
 
   render() {
-    const { account, accounts, activeScreen } = this.state;
+    const { account, history, requests, accounts, activeScreen } = this.state;
 
-    if (!account || !accounts) {
+    if (!account || !history || !requests || !accounts) {
       return <div className="followers">loading...</div>
     }
 
-    const requests = account.requests.map(request => {
+    const _requests = requests.map(request => {
       const account = accounts.find(account => account.login === request.login);
       return account;
     });
 
-    const history = account.history.map(item => {
+    const _history = history.map(item => {
       const account = accounts.find(account => account.login === item.login);
       return { ...account, action: item.action };
     });
@@ -242,12 +203,12 @@ class FollowersApp extends Component {
             followers={account.followers}
             following={account.following}
             onClick={this.handleChangeScreen('updates')}
-            requests={account.requests}
+            requests={requests}
           />
         ):(
           <AccountUpdates
-            requests={requests}
-            history={history}
+            requests={_requests}
+            history={_history}
             onAdd={this.handleAddFollower}
             onDecline={this.handleDeclineFollower}
             onDelete={this.handleDeleteFollower}
