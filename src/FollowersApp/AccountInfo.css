@@ -1,0 +1,42 @@
+.account {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account-info {
+  margin-left: 20px;
+}
+
+.account-info-counters {
+  display: flex;
+}
+
+.account-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.account-info-counters > div {
+  margin-right: 10px;
+  font-weight: 500;
+}
+
+.account-info-counters > div > span {
+  font-weight: 600;
+  color: #0091ff;
+}
+
+.button {
+  position: relative;
+  padding: 8px 19px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: 0.3s all;
+}
+
+.button:hover {
+  background: rgba(61, 171, 255, 0.1);
+}
