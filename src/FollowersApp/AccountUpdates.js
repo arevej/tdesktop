@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Requests from './Requests';
 import UpdatesHistory from './UpdatesHistory';
 
-import './AccountInfo.css';
+import './AccountUpdates.css';
 
 
 function AccountUpdates({ requests, history, onAdd, onDecline, onDelete, onCancel }) {

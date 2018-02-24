@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Avatar from '../Avatar';
+import Button from './Button';
 
 import './UpdatesHistory.css';
 
@@ -8,7 +9,11 @@ function HistoryItem({ avatarURL, login, onDelete }) {
     <li>
       <Avatar size={50} avatarURL={avatarURL} />
       <span>{login} started to follow you</span>
-      <div onClick={onDelete(login)} className="decline-button">Delete</div>
+      <Button
+        onClick={onDelete(login)}
+        label="Delete"
+        danger
+      />
     </li>
   )
 }

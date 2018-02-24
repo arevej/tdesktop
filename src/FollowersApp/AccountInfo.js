@@ -1,19 +1,8 @@
 import React, { Component } from 'react';
 import Avatar from '../Avatar';
+import Button from './Button';
 
 import './AccountInfo.css';
-
-function Button ({ onClick, requests }) {
-  return (
-    <div className="button" onClick={onClick}>
-      Updates
-      {requests.length !== 0 ?
-        <div style={{ position: 'absolute', top: 5, right: 5, background: '#0091ff', width: '8px', height: '8px', borderRadius: '5px' }}></div>
-      : null
-      }
-    </div>
-  )
-}
 
 function AccountInfo({ avatarURL, login, following, followers, onClick, requests }) {
   return (
@@ -28,7 +17,11 @@ function AccountInfo({ avatarURL, login, following, followers, onClick, requests
           </div>
         </div>
       </div>
-      <Button onClick={onClick} requests={requests} />
+      <Button
+        onClick={onClick}
+        hasBadge={requests.length !== 0 ? true : false }
+        label='Updates'
+       />
     </div>
   )
 }

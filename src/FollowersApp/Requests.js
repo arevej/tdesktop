@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import Avatar from '../Avatar';
+import Button from './Button';
 
 import './Requests.css';
 
-function Request({ avatarURL, login, onAdd, onDecline}) {
+function Request({ avatarURL, login, onAdd, onDecline }) {
   return (
     <li>
       <Avatar size={50} avatarURL={avatarURL} />
       <span>{login} wants to follow you</span>
       <div style={{ display: 'flex', flexDirection: 'row'}}>
-        <div onClick={onAdd(login)} className="add-button">Add</div>
-        <div onClick={onDecline(login)} className="decline-button">Decline</div>
+        <Button
+          onClick={onAdd(login)}
+          label="Add"
+          success
+        />
+        <div style={{ width: '5px' }} />
+        <Button
+          onClick={onDecline(login)}
+          label="Decline"
+          danger
+        />
       </div>
     </li>
   )
