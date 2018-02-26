@@ -1,9 +1,18 @@
+// @flow
 import React, { Component } from 'react';
 
 import './index.css';
 
+type LSProps = {
+  chosenLang: string,
+  languages: Array<string>,
+  onChangeLang: (string) => void,
+};
+type LSState = {
+  isActiveLangList: bool,
+};
 
-class LanguageSwitcher extends Component {
+class LanguageSwitcher extends Component<LSProps, LSState> {
   state = {
     isActiveLangList: false,
   }
@@ -34,14 +43,18 @@ class LanguageSwitcher extends Component {
   }
 }
 
+type State = {
+  chosenLang: string,
+  languages: Array<string>,
+};
 
-class BookFlyApp extends Component {
+class BookFlyApp extends Component<{}, State> {
   state = {
     chosenLang: 'English',
     languages: ['English', 'Spanish', 'French', 'German']
   }
 
-  handleChooseLang = (lang) => {
+  handleChooseLang = (lang: string) => {
     this.setState({ chosenLang: lang })
   }
 
