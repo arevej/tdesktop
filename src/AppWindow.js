@@ -10,6 +10,18 @@ function Button ({ color, onClick }) {
   )
 }
 
+function Sizer() {
+  // TODO
+  return (
+    <React.fragmnet>
+
+    </React.fragment>
+  )
+}
+
+const MIN_WIDTH = 300;
+const MIN_HEIGHT = 300;
+
 class AppWindow extends Component {
   componentDidMount() {
     window.addEventListener('mousemove', this.handleMouseMove);
@@ -30,9 +42,6 @@ class AppWindow extends Component {
 
   handleMouseMove = (evt) => {
     if (!this.downAt) return;
-
-    const MIN_WIDTH = 450;
-    const MIN_HEIGHT = 350;
 
     const { x, y, width, height } = this.props;
 
@@ -118,7 +127,6 @@ class AppWindow extends Component {
         style={{
           display: isMinimized ? 'none' : 'block',
           width: width,
-          height: height,
           top: y,
           left: x
         }}
@@ -140,7 +148,7 @@ class AppWindow extends Component {
           </div>
           <span>{name}</span>
         </div>
-        <div className="window-container">
+        <div className="window-container" style={{ height }}>
           {this.props.children}
         </div>
         <div
