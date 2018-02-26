@@ -1,47 +1,8 @@
 // @flow
 import React, { Component } from 'react';
+import LanguageSwitcher from './LanguageSwitcher';
 
 import './index.css';
-
-type LSProps = {
-  chosenLang: string,
-  languages: Array<string>,
-  onChangeLang: (string) => void,
-};
-type LSState = {
-  isActiveLangList: bool,
-};
-
-class LanguageSwitcher extends Component<LSProps, LSState> {
-  state = {
-    isActiveLangList: false,
-  }
-
-  openLangList = () => {
-    this.setState({ isActiveLangList: !this.state.isActiveLangList });
-  }
-
-  handleChooseLang = (lang) => () => {
-    this.setState({ isActiveLangList: false });
-    this.props.onChangeLang(lang);
-  }
-
-  render () {
-    const { languages, chosenLang } = this.props;
-
-    const { isActiveLangList } = this.state;
-    return (
-      <div className='lang-swit'>
-        <div className="lang-swit-main" onClick={this.openLangList}>{chosenLang}</div>
-        <div className='lang-swit-list' style={{ display: isActiveLangList ? 'block' : 'none'}}>
-          {languages.filter(lang => lang !== chosenLang).map(lang =>
-            <div className='lang-swit-list-item' onClick={this.handleChooseLang(lang)}>{lang}</div>
-          )}
-        </div>
-      </div>
-    )
-  }
-}
 
 type State = {
   chosenLang: string,

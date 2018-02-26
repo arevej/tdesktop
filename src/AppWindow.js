@@ -10,15 +10,6 @@ function Button ({ color, onClick }) {
   )
 }
 
-function Sizer() {
-  // TODO
-  return (
-    <React.fragmnet>
-
-    </React.fragment>
-  )
-}
-
 const MIN_WIDTH = 300;
 const MIN_HEIGHT = 300;
 
