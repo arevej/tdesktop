@@ -25,19 +25,7 @@ class App extends Component {
 
     ],
 
-    windows: [
-      { id: 4,
-        name: 'BookFly',
-        width: 600,
-        height: 400,
-        coordX: 150,
-        coordY: 150,
-        isMinimized: false,
-        isMaximized: false,
-        lastPositionAndDimensions:
-          {width: 0, height: 0, coordX: 0, coordY: 0}
-      }
-    ],
+    windows: [],
   }
 
   isAppOpened = (name) => {
