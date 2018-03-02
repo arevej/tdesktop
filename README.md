@@ -1,4 +1,4 @@
-# tdesktop
+# MacOS-like Desktop on the web 
 
 It's a replica of the desktop and window management experience in macOS. There is a working dock; windows can be opened from the dock, moved around, resized, maximized, and minimized.
 
@@ -9,4 +9,4 @@ There are two working applications:
 
 [![](ScreenShot.png)](https://sad-spence-442c98.netlify.com)
 
-[Demo version](https://github.com/arevej/tdesktop/blob/master/ScreenShot.png)
+[Demo version](https://sad-spence-442c98.netlify.com)
